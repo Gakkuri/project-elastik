@@ -1,0 +1,24 @@
+type Query {
+  listStudents: [Student]
+}
+
+type Mutation {
+  createStudent(student: StudentInput!): Student
+  deleteStudent(studentId: String!): String
+}
+
+type Student {
+  id: String!
+  first_name: String!
+  last_name: String!
+  email: String
+  date_of_birth: String
+}
+
+input StudentInput {
+  id: String!
+  first_name: String!
+  last_name: String!
+  email: String
+  date_of_birth: String
+}
