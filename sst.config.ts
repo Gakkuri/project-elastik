@@ -11,8 +11,6 @@ export default {
   },
   stacks(app) {
     app.stack(function Site({ stack }) {
-      const site = new NextjsSite(stack, "site");
-
       const auth = new Cognito(stack, "Auth", {
         login: ["email", "phone", "username", "preferredUsername"],
       });
@@ -67,6 +65,16 @@ export default {
 
       auth.attachPermissionsForAuthUsers(stack, [api, table]);
       auth.attachPermissionsForUnauthUsers(stack, [loginApi]);
+
+      const site = new NextjsSite(stack, "site", {
+        environment: {
+          NEXT_PUBLIC_GRAPHQL_ENDPOINT: api.url,
+          NEXT_PUBLIC_AUTH_ENDPOINT: loginApi.url,
+          NEXT_PUBLIC_USER_POOL_ID: auth.userPoolId,
+          NEXT_PUBLIC_APP_CLIENT_ID: auth.userPoolClientId,
+          NEXT_PUBLIC_IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
+        },
+      });
 
       stack.addOutputs({
         SiteUrl: site.url,
