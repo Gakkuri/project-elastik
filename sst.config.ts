@@ -69,12 +69,12 @@ export default {
       auth.attachPermissionsForUnauthUsers(stack, [loginApi]);
 
       stack.addOutputs({
-        Cognito: auth.id,
         SiteUrl: site.url,
-        ApiId: api.apiId,
-        APiUrl: api.url,
-        ApiKey: api.cdk.graphqlApi.apiKey || "",
-        LogoutApiEndpoint: loginApi.url,
+        ClientId: auth.userPoolClientId,
+        UserPoolId: auth.userPoolId,
+        IdentityPoolId: auth.cognitoIdentityPoolId,
+        GraphQLEndpoint: api.url,
+        AuthEndpoint: loginApi.url,
       });
     });
   },

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   CModal,
   CModalHeader,
@@ -9,27 +10,49 @@ import {
   CButton,
   CForm,
   CFormInput,
-  CCol,
   CRow,
+  CSpinner,
 } from "@coreui/react";
+import { createStudent } from "@/graphql/mutations";
+import { generateClient } from "aws-amplify/api";
 
 import { Student } from "@/types/types";
+
+const client = generateClient();
 
 const AddStudent = ({
   visible,
   closeModal,
 }: {
   visible: boolean;
-  closeModal: () => void;
+  closeModal: (student?: Student) => void;
 }) => {
-  const onSubmit = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // Add student
     e.preventDefault();
-    const values = new FormData(e.target);
+    const values = new FormData(e.currentTarget);
 
-    values.forEach((key, value) => {
-      console.log(key, value);
-    });
+    setLoading(true);
+
+    try {
+      const { data } = (await client.graphql({
+        query: createStudent,
+        variables: {
+          input: {
+            first_name: values.get("first_name"),
+            last_name: values.get("last_name"),
+            email: values.get("email"),
+            date_of_birth: values.get("date_of_birth"),
+          },
+        },
+      })) as { data: { createStudent: Student } };
+      setLoading(false);
+      closeModal(data.createStudent);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -76,11 +99,23 @@ const AddStudent = ({
           </CRow>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={closeModal}>
+          <CButton color="secondary" onClick={() => closeModal()}>
             Close
           </CButton>
-          <CButton type="submit" color="primary">
-            Add Student
+          <CButton type="submit" color="primary" disabled={loading}>
+            {loading ? (
+              <>
+                <CSpinner
+                  as="span"
+                  size="sm"
+                  variant="grow"
+                  aria-hidden="true"
+                />
+                Loading...
+              </>
+            ) : (
+              "Add Student"
+            )}
           </CButton>
         </CModalFooter>
       </CForm>
