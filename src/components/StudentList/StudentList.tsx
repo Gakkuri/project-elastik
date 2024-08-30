@@ -17,42 +17,30 @@ import { Student } from "@/types/types";
 
 import styles from "./StudentList.module.css";
 
-const usersData = [
-  {
-    id: "1",
-    first_name: "John",
-    last_name: "Doe",
-    email: "test@gmail.com",
-    date_of_birth: "11/11/2000",
-  },
-  {
-    id: "2",
-    first_name: "Jane",
-    last_name: "Doe",
-    email: "test@gmail.com",
-    date_of_birth: "10/10/2000",
-  },
-  {
-    id: "3",
-    first_name: "Someone",
-    last_name: "Doe",
-    email: "test@gmail.com",
-    date_of_birth: "12/12/2000",
-  },
-];
-
-const StudentList = () => {
+const StudentList = ({ students }: { students: Student[] }) => {
   const [addModal, setAddModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [displayStudents, setDisplayStudents] = useState<Student[]>(students);
 
   return (
     <CContainer fluid>
       <RemoveStudent
         student={selectedStudent}
-        closeModal={() => setSelectedStudent(null)}
+        closeModal={(id) => {
+          setDisplayStudents((curr) =>
+            curr.filter((student) => student.id !== id)
+          );
+          setSelectedStudent(null);
+        }}
       />
-
-      <AddStudent visible={addModal} closeModal={() => setAddModal(false)} />
+      <AddStudent
+        visible={addModal}
+        closeModal={(student) => {
+          if (student)
+            setDisplayStudents([...displayStudents, student as Student]);
+          setAddModal(false);
+        }}
+      />
 
       <div className={styles.createStudentBtn}>
         <CButton
@@ -78,8 +66,8 @@ const StudentList = () => {
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {usersData.map((student) => (
-            <CTableRow key={student.first_name}>
+          {displayStudents.map((student) => (
+            <CTableRow key={student.id}>
               <CTableDataCell>{student.first_name}</CTableDataCell>
               <CTableDataCell>{student.last_name}</CTableDataCell>
               <CTableDataCell>{student.email}</CTableDataCell>
