@@ -1,4 +1,4 @@
-import StudentList from "@/components/StudentList";
+import StudentList from "@/components/StudentList/StudentList";
 
 export default function Home() {
   return (
