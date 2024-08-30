@@ -1,0 +1,8 @@
+.removeCol {
+  width: 10%;
+}
+
+.createStudentBtn {
+  display: flex;
+  justify-content: flex-end;
+}

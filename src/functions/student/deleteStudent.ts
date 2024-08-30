@@ -11,8 +11,6 @@ export default async function deleteStudent(
     TableName: Table.Students.tableName,
   };
 
-  console.log(studentId);
-
   await dynamoDb.delete(params).promise();
 
   return studentId;

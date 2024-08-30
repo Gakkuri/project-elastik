@@ -1,0 +1,15 @@
+.avatarContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header {
+  margin-bottom: 2rem;
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+}
+
+.headerTitle {
+  margin: 0;
+}
