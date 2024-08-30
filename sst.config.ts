@@ -69,6 +69,7 @@ export default {
       auth.attachPermissionsForUnauthUsers(stack, [loginApi]);
 
       stack.addOutputs({
+        Cognito: auth.id,
         SiteUrl: site.url,
         ApiId: api.apiId,
         APiUrl: api.url,
