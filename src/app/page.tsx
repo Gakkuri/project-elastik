@@ -1,20 +1,10 @@
-import RemoveStudent from "@/components/Modals/RemoveStudent";
-import StudentList from "@/components/StudentList/StudentList";
+import Login from "@/components/Login/Login";
 
-type Student = {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  date_of_birth: string;
-};
-
-export default function Home() {
-  // Query List of Student
-
+const LoginPage = () => {
   return (
     <main>
-      <StudentList />
+      <Login />
     </main>
   );
-}
+};
+export default LoginPage;
