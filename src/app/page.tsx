@@ -1,9 +1,10 @@
-import StudentList from "@/components/StudentList/StudentList";
+import Login from "@/components/Login/Login";
 
-export default function Home() {
+const LoginPage = () => {
   return (
     <main>
-      <StudentList />
+      <Login />
     </main>
   );
-}
+};
+export default LoginPage;
