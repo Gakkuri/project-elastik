@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.52.3",
+    "aws-amplify": "^6.5.3",
+    "axios": "^1.7.5",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18"
